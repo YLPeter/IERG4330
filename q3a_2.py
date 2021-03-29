@@ -27,11 +27,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: RageRank <file>", file=sys.stderr)
         sys.exit(-1)
-    def case_map(input):
-        url,link_rank = input
-        links = link_rank[0]
-        rank = link_rank[1]
-        return links.map(lambda dest: (dest,rank/len(links)))
+   
         
         
     spark = SparkSession\
@@ -43,9 +39,12 @@ if __name__ == "__main__":
     data = lines.filter(lambda x: x.encode("ascii", "ignore")[0]!='#')
     links = data.map(lambda x: x.split('\t'))
     keys = links.groupByKey()
-    ranks = keys.map(lambda x: (x[0],1))
-    
-    contrib = links.join(ranks).flatMap(case_map)
+    ranks = keys.map(lambda x: (x[0],1,len(x[1])))
+    def case_map(input):
+        url,link_rank = input
+        rank = link_rank[1]
+        return links.map(lambda dest: (dest,rank/len(links)))
+    contrib = links.join(ranks)
     
     output2 = contrib.collect()
     for i in output2:
