@@ -34,10 +34,11 @@ if __name__ == "__main__":
         .getOrCreate()
 
     lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
+    data = lines.filter(not lines.startsWith("James"))
     #counts = lines.flatMap(lambda x: x.split(' ')) \
     #              .map(lambda x: (x, 1)) \
     #              .reduceByKey(add)
-    output = lines.collect()
+    output = data.collect()
     for i in output:
         print(i)
 

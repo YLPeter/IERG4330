@@ -21,7 +21,6 @@ import sys
 from operator import add
 
 from pyspark.sql import SparkSession
-from pyspark import SparkContext, SparkConf
 
 
 if __name__ == "__main__":
@@ -29,18 +28,18 @@ if __name__ == "__main__":
         print("Usage: RageRank <file>", file=sys.stderr)
         sys.exit(-1)
 
-    #spark = SparkSession\
-    #    .builder\
-    #    .appName("PythonRageRank")\
-    #    .getOrCreate()
-    conf = SparkConf().setAppName("PythonRageRank").setMaster("k8s://https://172.16.5.172:6443")
-    sc = SparkContext(conf=conf)
-    lines = sc.textFile(sys.argv[1]).rdd.map(lambda r: r[0])
+    spark = SparkSession\
+        .builder\
+        .appName("PythonRageRank")\
+        .getOrCreate()
+
+    lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
+    data = lines.filter(not lines.startsWith("James"))
     #counts = lines.flatMap(lambda x: x.split(' ')) \
     #              .map(lambda x: (x, 1)) \
     #              .reduceByKey(add)
-    output = lines.collect()
+    output = data.collect()
     for i in output:
         print(i)
 
-    sc.stop()
+    spark.stop()
