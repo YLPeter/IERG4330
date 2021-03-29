@@ -50,5 +50,5 @@ if __name__ == "__main__":
         ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
     output3 = ranks.sortBy(lambda x: x[1]).collect()
     for (link, rank) in output3:
-        print('{:10s} has rank: {:10s}'.format(link.encode("ascii", "ignore"), rank))
+        print('{:10s} has rank: {:20.10f}'.format(link.encode("ascii", "ignore"), rank))
     spark.stop()
