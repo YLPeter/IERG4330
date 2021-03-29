@@ -41,7 +41,7 @@ if __name__ == "__main__":
     lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
     data = lines.filter(lambda x: x.encode("ascii", "ignore")[0]!='#')
     links = data.map(lambda x: x.split('\t'))
-    keys = links.distinct().groupByKey().cache()
+    keys = links.groupByKey().cache()
     output2 = keys.collect()
     for i in output2:
         print("keys ",i)
