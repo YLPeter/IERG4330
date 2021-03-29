@@ -42,7 +42,7 @@ if __name__ == "__main__":
     ranks = keys.map(lambda x: (x[0],1))
 
     contrib = links.join(ranks).map(lambda input:links.map(lambda dest: (dest,input[1][1]/links.size)))
-    output3 = contrib.collect()
+    output3 = contrib.reduceByKey(lambda a, b: a + b)
     for i in output3:
         print("out3 ",i)
     ranks = contrib.reduceByKey(lambda a, b: a + b).mapValues(lambda x: 0.15+0.85 * x)
