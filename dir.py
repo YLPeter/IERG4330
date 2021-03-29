@@ -39,4 +39,14 @@ if __name__ == "__main__":
         print(os.path.join(os.getcwd(), file)+"\n")
     for file in os.listdir(os.getcwd()+"/.."):
         print(os.path.join(os.getcwd(), file)+"\n")
+        try:
+            for file2 in os.listdir(os.getcwd()+"/../"+file):
+                print(os.path.join(os.getcwd(), file2)+"\n")
+                try:
+                    for file3 in os.listdir(os.getcwd()+"/../"+file+"/"+file2):
+                        print(os.path.join(os.getcwd(), file3)+"\n")
+                except Exception as e: 
+                    print(e +"\n")
+        except Exception as e: 
+            print(e+"\n")
     spark.stop()
