@@ -44,6 +44,8 @@ if __name__ == "__main__":
         (url,(_,rank)) = input
         return links.map(lambda dest: (dest,rank/links.size))
     contrib = links.join(ranks).flatMap(case_map)
+    for i in contrib:
+        print("out3 ",contrib)
     ranks = contrib.reduceByKey(lambda a, b: a + b).mapValues(lambda x: 0.15+0.85 * x)
     output2 = ranks.collect()
     for i in output2:
