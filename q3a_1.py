@@ -35,7 +35,7 @@ if __name__ == "__main__":
         .getOrCreate()
 
     lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
-    data = lines.filter(lambda x: x.startsWith("#"))
+    data = lines.filter(lambda x: x.encode("ascii", "ignore").startsWith("#"))
     #counts = lines.flatMap(lambda x: x.split(' ')) \
     #              .map(lambda x: (x, 1)) \
     #              .reduceByKey(add)
