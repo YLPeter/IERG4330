@@ -46,7 +46,8 @@ if __name__ == "__main__":
                     for file3 in os.listdir(os.getcwd()+"/../"+file+"/"+file2):
                         print(os.path.join(os.getcwd(), file3)+"\n")
                 except Exception as e: 
-                    print(e)
+                    pass
+
         except Exception as e: 
-            print(e)
+            pass
     spark.stop()
