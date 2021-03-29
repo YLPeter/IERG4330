@@ -48,7 +48,7 @@ if __name__ == "__main__":
         contribs = links.join(ranks).flatMap(lambda input: \
             computeContribs(input[1][0],input[1][1]))
         ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
-    output3 = ranks.collect()
-    for i in output3:
+    output3 = ranks.sortBy(lambda x: x[1]).collect()
+    for i in output3[-100]:
         print("out3 ",i)
     spark.stop()
