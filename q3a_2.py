@@ -41,11 +41,9 @@ if __name__ == "__main__":
     lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
     data = lines.filter(lambda x: x.encode("ascii", "ignore")[0]!='#')
     links = data.map(lambda x: x.split('\t'))
-    keys = links.groupByKey().cache()
-    output2 = keys.collect()
-    for i in output2:
-        print("keys ",i)
-    ranks = keys.map(lambda x: (x[0],1))
+    links = links.groupByKey().cache()
+
+    ranks = links.map(lambda x: (x[0],1))
     for i in range(int(sys.argv[2])):
         contribs = links.join(ranks).flatMap(lambda input: \
             computeContribs(input[1][0],input[1][1]))
