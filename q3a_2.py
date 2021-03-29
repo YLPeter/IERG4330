@@ -24,8 +24,8 @@ from pyspark.sql import SparkSession
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: RageRank <file>", file=sys.stderr)
+    if len(sys.argv) != 3:
+        print("Usage: RageRank <file> <num of iteration>", file=sys.stderr)
         sys.exit(-1)
     def computeContribs(dests, rank):
         num_urls = len(dests)
@@ -43,10 +43,10 @@ if __name__ == "__main__":
     links = data.map(lambda x: x.split('\t'))
     keys = links.groupByKey()
     ranks = keys.map(lambda x: (x[0],1))
-
-    contribs = links.join(ranks).flatMap(lambda input: \
-        computeContribs(input[1][0],input[1][1]))
-    ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
+    for i in range(int(sys.argv[2])):
+        contribs = links.join(ranks).flatMap(lambda input: \
+            computeContribs(input[1][0],input[1][1]))
+        ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
     output3 = ranks.collect()
     for i in output3:
         print("out3 ",i)
