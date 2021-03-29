@@ -49,6 +49,7 @@ if __name__ == "__main__":
         ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
     sortedRanks = ranks.sortBy(lambda a: a[1])
     output3 = sortedRanks.collect()   
-    for i in output3:
+    res = sorted(output3, key=lambda x: x[1])
+    for i in res:
         print("out3 ",i)
     spark.stop()
