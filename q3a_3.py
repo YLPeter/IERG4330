@@ -27,7 +27,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: RageRank <file> <num of iteration>", file=sys.stderr)
         sys.exit(-1)
-    def compContribs(dests, rank):
+    def computeContribs(dests, rank):
         num_urls = len(dests)
         for url in dests:
             yield (url, rank / num_urls)
@@ -41,14 +41,13 @@ if __name__ == "__main__":
     lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
     data = lines.filter(lambda x: x.encode("ascii", "ignore")[0]!='#')
     links = data.map(lambda x: x.split('\t'))
-    links = links.distinct().groupByKey().cache()
-    ranks = links.map(lambda x: (x[0],1.0))
+    keys = links.groupByKey()
+    ranks = keys.map(lambda x: (x[0],1))
     for i in range(int(sys.argv[2])):
         contribs = links.join(ranks).flatMap(lambda input: \
-            compContribs(input[1][0],input[1][1]))
+            computeContribs(input[1][0],input[1][1]))
         ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
-    output3 = ranks.collect()   
-    res = sorted(output3, key=lambda x: x[1])
-    for i in res:
+    output3 = ranks.collect()
+    for i in output3:
         print("out3 ",i)
     spark.stop()
