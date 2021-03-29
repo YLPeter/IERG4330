@@ -27,7 +27,8 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: RageRank <file>", file=sys.stderr)
         sys.exit(-1)
-    def case_map(url,link_rank):
+    def case_map(input):
+        url,link_rank = input
         links = link_rank[0]
         rank = link_rank[1]
         return links.map(lambda dest: (dest,rank/len(links)))
