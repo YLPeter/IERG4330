@@ -29,8 +29,9 @@ if __name__ == "__main__":
         sys.exit(-1)
     def case_map(url,link_rank):
         links = link_rank[0]
-        ranks = link_rank[1]
-        #links.map(lambda dest: (dest,))
+        rank = link_rank[1]
+        return links.map(lambda dest: (dest,rank/len(links)))
+        
         
     spark = SparkSession\
         .builder\
@@ -41,9 +42,9 @@ if __name__ == "__main__":
     data = lines.filter(lambda x: x.encode("ascii", "ignore")[0]!='#')
     links = data.map(lambda x: x.split('\t'))
     keys = links.groupByKey()
-    ranks = keys.map(lambda x: (x[0],1,len(x[1])))
+    ranks = keys.map(lambda x: (x[0],1))
     
-    contrib = links.join(ranks)
+    contrib = links.join(ranks).flatMap(case_map)
     
     output2 = contrib.collect()
     for i in output2:
