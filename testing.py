@@ -33,12 +33,24 @@ if __name__ == "__main__":
         .appName("PythonWordCount")\
         .getOrCreate()
 
-    lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
-    counts = lines.flatMap(lambda x: x.split(' ')) \
-                  .map(lambda x: (x, 1)) \
-                  .reduceByKey(add)
-    output = counts.collect()
-    for (word, count) in output:
-        print("%s: %i" % (word, count))
+    import os
+    print(os.path.dirname(os.path.abspath(__file__)))
 
+
+    print("\nPath at terminal when executing this file")
+    print(os.getcwd() + "\n")
+
+    print("This file path, relative to os.getcwd()")
+    print(__file__ + "\n")
+
+    print("This file full path (following symlinks)")
+    full_path = os.path.realpath(__file__)
+    print(full_path + "\n")
+
+    print("This file directory and name")
+    path, filename = os.path.split(full_path)
+    print(path + ' --> ' + filename + "\n")
+
+    print("This file directory only")
+    print(os.path.dirname(full_path))
     spark.stop()
