@@ -35,12 +35,17 @@ if __name__ == "__main__":
         .getOrCreate()
 
     lines = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0])
-    data = lines.filter(lambda x: x.encode("ascii", "ignore").startsWith("#"))
+    data = lines.filter(lambda x: x.encode("ascii", "ignore")[0]!='#')
+    ids = data.map(lambda x: x.split('\t'))
+    output = ids.collect()
+    for i in output:
+        print("out1 ",i)
+    keys = ids.groupByKey()
     #counts = lines.flatMap(lambda x: x.split(' ')) \
     #              .map(lambda x: (x, 1)) \
     #              .reduceByKey(add)
-    output = data.collect()
-    for i in output:
-        print(i)
+    output2 = keys.collect()
+    for i in output2:
+        print("out2 ",i)
 
     spark.stop()
