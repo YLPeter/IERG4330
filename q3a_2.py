@@ -49,6 +49,6 @@ if __name__ == "__main__":
             computeContribs(input[1][0],input[1][1]))
         ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
     output3 = ranks.sortBy(lambda x: x[1]).collect()
-    for i in output3[-100]:
-        print("out3 ",i)
+    for (link, rank) in output3:
+        print("%s has rank: %s." % (link.encode("ascii", "ignore"), rank))
     spark.stop()
