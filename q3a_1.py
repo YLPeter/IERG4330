@@ -40,13 +40,11 @@ if __name__ == "__main__":
     links = data.map(lambda x: x.split('\t'))
     keys = links.groupByKey()
     ranks = keys.map(lambda x: (x[0],1))
-    def case_map(input):
-        (url,(_,rank)) = input
-        return links.map(lambda dest: (dest,rank/links.size))
-    contrib = links.join(ranks).flatMap(case_map)
-    contrib = contrib.map(lambda x: x)
-    for i in contrib:
-        print("out3 ",contrib)
+
+    contrib = links.join(ranks).flatMap(lambda input:links.map(lambda dest: (dest,input[1][1]/links.size)))
+    output3 = contrib.collect()
+    for i in output3:
+        print("out3 ",i)
     ranks = contrib.reduceByKey(lambda a, b: a + b).mapValues(lambda x: 0.15+0.85 * x)
     output2 = ranks.collect()
     for i in output2:
