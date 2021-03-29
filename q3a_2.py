@@ -47,8 +47,7 @@ if __name__ == "__main__":
         contribs = links.join(ranks).flatMap(lambda input: \
             compContribs(input[1][0],input[1][1]))
         ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
-    sortedRanks = ranks.sortBy(lambda a: a[1])
-    output3 = sortedRanks.collect()   
+    output3 = ranks.collect()   
     res = sorted(output3, key=lambda x: x[1])
     for i in res:
         print("out3 ",i)
