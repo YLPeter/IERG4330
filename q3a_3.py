@@ -27,7 +27,10 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: RageRank <file>", file=sys.stderr)
         sys.exit(-1)
-   
+    def computeContribs(dests, rank):
+        num_urls = len(dests)
+        for url in dests:
+            yield (url, rank / num_urls)
         
         
     spark = SparkSession\
@@ -41,13 +44,10 @@ if __name__ == "__main__":
     keys = links.groupByKey()
     ranks = keys.map(lambda x: (x[0],1))
 
-    contrib = links.join(ranks).map(lambda input:links.map(lambda dest: (dest,input[1][1]/links.size)))
-    output3 = contrib.reduceByKey(lambda a, b: a + b)
+    contribs = links.join(ranks).flatMap(lambda input: \
+        computeContribs(input[1][0],input[1][1]))
+    ranks = contribs.reduceByKey(add).mapValues(lambda rank: rank * 0.85 + 0.15)
+    output3 = ranks.collect()
     for i in output3:
         print("out3 ",i)
-    ranks = contrib.reduceByKey(lambda a, b: a + b).mapValues(lambda x: 0.15+0.85 * x)
-    output2 = ranks.collect()
-    for i in output2:
-        print("out2 ",i)
-
     spark.stop()
