@@ -28,7 +28,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: SQL <file> <file> ", file=sys.stderr)
         sys.exit(-1)
-    def filtering(df):
+    def counting(df):
         return df.select(df['METHOD'])\
         .filter(df['METHOD'] == "GUN")\
             .count()
@@ -37,16 +37,16 @@ if __name__ == "__main__":
         .builder\
         .appName("PythonSQL")\
         .getOrCreate()
-    df = spark.read.load(sys.argv[1],
-                     format=sys.argv[1][-3:], inferSchema="true", header="true")
-    df2 = spark.read.load(sys.argv[2],
-                     format=sys.argv[1][-3:], inferSchema="true", header="true")
-    offenseCount = filtering(df)
-    offenseCount2 = filtering(df2)
-    result = offenseCount.union(offenseCount2)
-    result.count().show()
-    offenseCount.show()
-    offenseCount2.show()
-    result.show()
+    dir = []
+    for i in range(0,5):
+        dir.append(sys.argv[1][0:43]+str(i)+sys.argv[1][44:])
+    print(dir)
+    df = []
+    offenseCount = []
+    for i in range(0,5):
+        df = spark.read.load(dir[i],
+                        format=sys.argv[1][-3:], inferSchema="true", header="true")
+        offenseCount.append(counting(df))
+    print(offenseCount)
     
     spark.stop()
