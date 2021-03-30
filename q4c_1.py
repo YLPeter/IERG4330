@@ -39,7 +39,7 @@ if __name__ == "__main__":
         .appName("PythonSQL")\
         .getOrCreate()
     dir = []
-    for i in range(0,sys.argv[2]):
+    for i in range(0,int(sys.argv[2])):
         dir.append(sys.argv[1][0:43]+str(i)+sys.argv[1][44:])
     print(dir)
     df = []
@@ -47,7 +47,7 @@ if __name__ == "__main__":
                     format=sys.argv[1][-3:], inferSchema="true", header="true")
     total = df.count()
     result = counting(df,total,"2010")
-    for i in range(1,sys.argv[2]):
+    for i in range(1,int(sys.argv[2])):
         df = spark.read.load(dir[i],
                         format=sys.argv[1][-3:], inferSchema="true", header="true")
         total = df.count()
