@@ -28,10 +28,10 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: SQL <file> ", file=sys.stderr)
         sys.exit(-1)
-    def counting(df,year):
+    def counting(df,total,year):
         return df.select(df['METHOD'], df['END_DATE'])\
         .groupBy("METHOD").count()\
-            .withColumn('perc', (sf.col('METHOD') / df.count()) * 100 )\
+            .withColumn('perc', (sf.col('count') / total) * 100 )\
             .withColumn("Year",sf.lit(year))
          
     spark = SparkSession\
@@ -49,7 +49,8 @@ if __name__ == "__main__":
     for i in range(1,4):
         df = spark.read.load(dir[i],
                         format=sys.argv[1][-3:], inferSchema="true", header="true")
-        result = result.union(counting(df,"201"+str(i)))
+        total = df.count()
+        result = result.union(counting(df,total,"201"+str(i)))
     result.show()
     
     spark.stop()
