@@ -21,7 +21,7 @@ import sys
 from operator import add
 
 from pyspark.sql import SparkSession
-
+import pyspark.sql.functions as sf
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -35,6 +35,13 @@ if __name__ == "__main__":
         .getOrCreate()
     df = spark.read.load(sys.argv[1],
                      format=sys.argv[1][-3:], inferSchema="true", header="true")
-    df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT']).show()
-
+    df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT'])\
+        .filter(df['CCN'].isNotNull() & \
+            df['REPORT_DAT'].isNotNull() & \
+            df['OFFENSE'].isNotNull() & \
+            df['METHOD'].isNotNull() & \
+            df['END_DATE'].isNotNull() & \
+            df['DISTRICT'].isNotNull())\
+            .show()
+    
     spark.stop()
