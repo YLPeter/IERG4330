@@ -30,8 +30,8 @@ if __name__ == "__main__":
         sys.exit(-1)
     def filtering(df):
         return df.select(df['METHOD'])\
-        .filter(df['METHOD'] == "GUN" & \
-            df['METHOD'].isNotNull()).count()
+        .filter(df['METHOD'] == "GUN")\
+            .count()
          
     spark = SparkSession\
         .builder\
