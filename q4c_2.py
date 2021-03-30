@@ -28,10 +28,11 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: SQL <file> ", file=sys.stderr)
         sys.exit(-1)
-    def counting(df):
-        return df.select(df['METHOD'])\
-        .filter(df['METHOD'] == "GUN")\
-            .count()
+    def counting(df,year):
+        return df.select(df['METHOD'], df['END_DATE'])\
+        .groupBy("METHOD").count()\
+            .withColumn('perc', (sf.col('METHOD') / df.count()) * 100 )\
+            .withColumn("Year",year)
          
     spark = SparkSession\
         .builder\
@@ -42,11 +43,13 @@ if __name__ == "__main__":
         dir.append(sys.argv[1][0:43]+str(i)+sys.argv[1][44:])
     print(dir)
     df = []
-    offenseCount = []
-    for i in range(0,4):
+    df = spark.read.load(dir[0],
+                    format=sys.argv[1][-3:], inferSchema="true", header="true")
+    result = counting(df,"201"+i)
+    for i in range(1,4):
         df = spark.read.load(dir[i],
                         format=sys.argv[1][-3:], inferSchema="true", header="true")
-        offenseCount.append(counting(df))
-    print(offenseCount)
+        result = result.union(counting(df,"201"+i)))
+    result.show()
     
     spark.stop()
