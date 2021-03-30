@@ -25,25 +25,31 @@ import pyspark.sql.functions as sf
 from pyspark.sql.types import IntegerType
 from pyspark.sql.functions import *
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: SQL <file> ", file=sys.stderr)
+    if len(sys.argv) != 3:
+        print("Usage: SQL <file> <file> ", file=sys.stderr)
         sys.exit(-1)
-        
-        
+    def filtering(df):
+        return df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT'])\
+        .filter(df['CCN'].isNotNull() & \
+            df['REPORT_DAT'].isNotNull() & \
+            df['OFFENSE'].isNotNull() & \
+            df['METHOD'].isNotNull() & \
+            df['END_DATE'].isNotNull() & \
+            df['DISTRICT'].isNotNull()).groupBy("OFFENSE").count()
+         
     spark = SparkSession\
         .builder\
         .appName("PythonSQL")\
         .getOrCreate()
     df = spark.read.load(sys.argv[1],
                      format=sys.argv[1][-3:], inferSchema="true", header="true")
-    filtedDF = df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT'])\
-        .filter(df['CCN'].isNotNull() & \
-            df['REPORT_DAT'].isNotNull() & \
-            df['OFFENSE'].isNotNull() & \
-            df['METHOD'].isNotNull() & \
-            df['END_DATE'].isNotNull() & \
-            df['DISTRICT'].isNotNull())
-    filtedDF.groupBy("OFFENSE").count().show()
-    df.filter(df['SHIFT'].isNotNull()).groupBy("SHIFT").count().show()
-
+    df2 = spark.read.load(sys.argv[2],
+                     format=sys.argv[1][-3:], inferSchema="true", header="true")
+    offenseCount = filtering(df)
+    
+    offenseCount2 = filtering(df2)
+    result = offenseCount.union(offenseCount2)
+    offenseCount.show()
+    offenseCount2.show()
+    result.show()
     spark.stop()
