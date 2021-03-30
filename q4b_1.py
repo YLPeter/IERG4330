@@ -44,7 +44,15 @@ if __name__ == "__main__":
             df['END_DATE'].isNotNull() & \
             df['DISTRICT'].isNotNull())
     filtedDF.groupBy("OFFENSE").count().show()
-
+    filtedDF.withColumn("hour3", hour(sf.to_timestamp("END_DATE","yyyy/MM/dd HH:mm:ssXX"))).show()    
+    try:
+        filtedDF.withColumn("hour1", sf.date_trunc('hour',sf.to_timestamp("END_DATE","yyyy/MM/dd HH:mm:sszz"))).show()    
+    except Exception as e: 
+        print(e)
+    try:
+        hours = filtedDF.withColumn("hour2", hour("END_DATE")).show()    
+    except Exception as e: 
+        print(e)
     try:
         filtedDF.withColumn("hour3", hour('hour',sf.to_timestamp("END_DATE","yyyy/MM/dd HH:mm:sszz"))).show()    
     except Exception as e: 
