@@ -44,6 +44,6 @@ if __name__ == "__main__":
             df['END_DATE'].isNotNull() & \
             df['DISTRICT'].isNotNull())
     filtedDF.groupBy("OFFENSE").count().show()
-    filtedDF.withColumn("hour3", hour(sf.to_timestamp("END_DATE","yyyy/MM/dd HH:mm:ssXX"))).show()    
+    filtedDF.withColumn("hour3+", hour(sf.to_timestamp("END_DATE","yyyy/MM/dd HH:mm:ss'+00'"))).show()    
 
     spark.stop()
