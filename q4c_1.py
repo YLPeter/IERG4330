@@ -38,12 +38,12 @@ if __name__ == "__main__":
         .appName("PythonSQL")\
         .getOrCreate()
     dir = []
-    for i in range(0,5):
+    for i in range(0,4):
         dir.append(sys.argv[1][0:43]+str(i)+sys.argv[1][44:])
     print(dir)
     df = []
     offenseCount = []
-    for i in range(0,5):
+    for i in range(0,4):
         df = spark.read.load(dir[i],
                         format=sys.argv[1][-3:], inferSchema="true", header="true")
         offenseCount.append(counting(df))
