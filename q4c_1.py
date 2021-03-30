@@ -52,6 +52,6 @@ if __name__ == "__main__":
                         format=sys.argv[1][-3:], inferSchema="true", header="true")
         total = df.count()
         result = result.union(counting(df,total,"201"+str(i)))
-    result.filter(df['METHOD'] == "GUN").show()
+    result.filter(result['METHOD'] == "GUN").show()
     
     spark.stop()
