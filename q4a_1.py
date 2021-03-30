@@ -35,13 +35,13 @@ if __name__ == "__main__":
         .getOrCreate()
     df = spark.read.load(sys.argv[1],
                      format=sys.argv[1][-3:], inferSchema="true", header="true")
-    df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT'])\
+    filtedDF = df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT'])\
         .filter(df['CCN'].isNotNull() & \
             df['REPORT_DAT'].isNotNull() & \
             df['OFFENSE'].isNotNull() & \
             df['METHOD'].isNotNull() & \
             df['END_DATE'].isNotNull() & \
-            df['DISTRICT'].isNotNull())\
-            .show()
-    
+            df['DISTRICT'].isNotNull())
+    filtedDF.groupBy("OFFENSE").count().show()
+    filtedDF.withColumn("hour", sf.date_trunc('hour',sf.to_timestamp("timestamp","yyyy-MM-dd HH:mm:ss zz"))).show()
     spark.stop()
