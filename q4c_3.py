@@ -26,7 +26,7 @@ from pyspark.sql.types import IntegerType
 from pyspark.sql.functions import *
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: SQL <file> ", file=sys.stderr)
+        print("Usage: SQL <file> <int>", file=sys.stderr)
         sys.exit(-1)
     def counting(df,total,year):
         return df.select(df['METHOD'], df['END_DATE'])\
@@ -39,7 +39,7 @@ if __name__ == "__main__":
         .appName("PythonSQL")\
         .getOrCreate()
     dir = []
-    for i in range(0,4):
+    for i in range(0,int(sys.argv[2])):
         dir.append(sys.argv[1][0:43]+str(i)+sys.argv[1][44:])
     print(dir)
     df = []
@@ -47,7 +47,7 @@ if __name__ == "__main__":
                     format=sys.argv[1][-3:], inferSchema="true", header="true")
     total = df.count()
     result = counting(df,total,"2010")
-    for i in range(1,4):
+    for i in range(1,int(sys.argv[2])):
         df = spark.read.load(dir[i],
                         format=sys.argv[1][-3:], inferSchema="true", header="true")
         total = df.count()
