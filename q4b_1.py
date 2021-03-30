@@ -22,7 +22,8 @@ from operator import add
 
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as sf
-
+from pyspark.sql.types import IntegerType
+from pyspark.sql.functions import *
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: SQL <file> ", file=sys.stderr)
@@ -43,5 +44,16 @@ if __name__ == "__main__":
             df['END_DATE'].isNotNull() & \
             df['DISTRICT'].isNotNull())
     filtedDF.groupBy("OFFENSE").count().show()
-    filtedDF.withColumn("hour", sf.date_trunc('hour',sf.to_timestamp("END_DATE","yyyy-MM-dd HH:mm:ss zz"))).show()
+    try:
+        filtedDF.withColumn("hour", sf.date_trunc('hour',sf.to_timestamp("END_DATE","yyyy-MM-dd HH:mm:sszz"))).show()    
+    except Exception as e: 
+        print(e)
+    try:
+        hours = filtedDF.withColumn("hour", hour("END_DATE")).show()    
+    except Exception as e: 
+        print(e)
+    try:
+        filtedDF.withColumn("hour", hour('hour',sf.to_timestamp("END_DATE","yyyy-MM-dd HH:mm:sszz"))).show()    
+    except Exception as e: 
+        print(e)
     spark.stop()
