@@ -32,7 +32,7 @@ if __name__ == "__main__":
         return df.select(df['METHOD'], df['END_DATE'])\
         .groupBy("METHOD").count()\
             .withColumn('perc', (sf.col('METHOD') / df.count()) * 100 )\
-            .withColumn("Year",year)
+            .withColumn("Year",sf.lit(year))
          
     spark = SparkSession\
         .builder\

@@ -32,7 +32,7 @@ if __name__ == "__main__":
         return df.select(df['METHOD'], df['END_DATE'])\
         .groupBy("METHOD").count()\
             .withColumn('perc', (sf.col('METHOD') / df.count()) * 100 )\
-            .withColumn("Year",year)
+            .withColumn("Year",sf.lit(year))
          
     spark = SparkSession\
         .builder\
@@ -45,11 +45,11 @@ if __name__ == "__main__":
     df = []
     df = spark.read.load(dir[0],
                     format=sys.argv[1][-3:], inferSchema="true", header="true")
-    result = counting(df,"201"+i)
+    result = counting(df,"2010")
     for i in range(1,4):
         df = spark.read.load(dir[i],
                         format=sys.argv[1][-3:], inferSchema="true", header="true")
-        result = result.union(counting(df,"201"+i))
+        result = result.union(counting(df,"201"+str(i)))
     result.show()
     
     spark.stop()
