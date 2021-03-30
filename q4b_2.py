@@ -44,6 +44,6 @@ if __name__ == "__main__":
             df['END_DATE'].isNotNull() & \
             df['DISTRICT'].isNotNull())
     filtedDF.groupBy("OFFENSE").count().show()
-    df.filter(df['CCN'].isNotNull()).groupBy("SHIFT").count().show()
+    df.filter(df['SHIFT'].isNotNull()).groupBy("SHIFT").count().show()
 
     spark.stop()
