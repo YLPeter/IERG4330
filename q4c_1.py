@@ -29,13 +29,9 @@ if __name__ == "__main__":
         print("Usage: SQL <file> <file> ", file=sys.stderr)
         sys.exit(-1)
     def filtering(df):
-        return df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT'])\
-        .filter(df['CCN'].isNotNull() & \
-            df['REPORT_DAT'].isNotNull() & \
-            df['OFFENSE'].isNotNull() & \
-            df['METHOD'].isNotNull() & \
-            df['END_DATE'].isNotNull() & \
-            df['DISTRICT'].isNotNull()).groupBy("OFFENSE").count()
+        return df.select(df['METHOD'])\
+        .filter(df['METHOD'] == "GUN" & \
+            df['METHOD'].isNotNull()).count()
          
     spark = SparkSession\
         .builder\
@@ -46,10 +42,11 @@ if __name__ == "__main__":
     df2 = spark.read.load(sys.argv[2],
                      format=sys.argv[1][-3:], inferSchema="true", header="true")
     offenseCount = filtering(df)
-    
     offenseCount2 = filtering(df2)
     result = offenseCount.union(offenseCount2)
+    result.count().show()
     offenseCount.show()
     offenseCount2.show()
     result.show()
+    
     spark.stop()
