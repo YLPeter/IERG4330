@@ -25,8 +25,8 @@ import pyspark.sql.functions as sf
 from pyspark.sql.types import IntegerType
 from pyspark.sql.functions import *
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: SQL <file> <file> ", file=sys.stderr)
+    if len(sys.argv) < 2:
+        print("Usage: SQL <file> ", file=sys.stderr)
         sys.exit(-1)
     def counting(df):
         return df.select(df['METHOD'])\
