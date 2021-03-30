@@ -44,16 +44,9 @@ if __name__ == "__main__":
             df['END_DATE'].isNotNull() & \
             df['DISTRICT'].isNotNull())
     filtedDF.groupBy("OFFENSE").count().show()
+
     try:
-        filtedDF.withColumn("hour", sf.date_trunc('hour',sf.to_timestamp("END_DATE","yyyy-MM-dd HH:mm:sszz"))).show()    
-    except Exception as e: 
-        print(e)
-    try:
-        hours = filtedDF.withColumn("hour", hour("END_DATE")).show()    
-    except Exception as e: 
-        print(e)
-    try:
-        filtedDF.withColumn("hour", hour('hour',sf.to_timestamp("END_DATE","yyyy-MM-dd HH:mm:sszz"))).show()    
+        filtedDF.withColumn("hour3", hour('hour',sf.to_timestamp("END_DATE","yyyy/MM/dd HH:mm:sszz"))).show()    
     except Exception as e: 
         print(e)
     spark.stop()
