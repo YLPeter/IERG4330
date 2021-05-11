@@ -23,11 +23,18 @@ if __name__ == "__main__":
         .appName("PythonSQL")\
         .getOrCreate()
         
-    df = spark.read.csv(sys.argv[1], sep=r'\t', header=True)
-    filtedDF = df.select(df['USERID'], df['TARGETID'], df['TIMESTAMP']).show()
+    df_mooc = spark.read.csv(sys.argv[1], sep=r'\t', header=True)
+    df_vertices = spark.read.csv(sys.argv[2], sep=r'\t', header=True)
+    ans1_total = df_vertices.count().show()
+    ans2_total = df_vertices.filter(df_vertices['type'] == "User").count().show()
+    ans3_total = df_vertices.filter(df_vertices['type'] == "Course Activity").count().show()
+    ans4_total = df_mooc.count().show()
+    ans5_total = df_mooc.groupBy("TARGETID").count().show()
+    ans6_total = df_mooc.groupBy("USERID").count().show()
+    #filtedDF = df_mooc.select(df_mooc['USERID'], df_mooc['TARGETID'], df_mooc['TIMESTAMP']).show()
     
-    df = spark.read.csv(sys.argv[1], sep=r'\t', header=True)
-    filtedDF = df.select(df['USERID'], df['TARGETID'], df['TIMESTAMP']).show()
+    #df = spark.read.csv(sys.argv[1], sep=r'\t', header=True)
+    #filtedDF = df.select(df['USERID'], df['TARGETID'], df['TIMESTAMP']).show()
     """filtedDF = df.select(df['CCN'], df['REPORT_DAT'], df['OFFENSE'], df['METHOD'], df['END_DATE'], df['DISTRICT'])\
         .filter(df['CCN'].isNotNull() & \
             df['REPORT_DAT'].isNotNull() & \
