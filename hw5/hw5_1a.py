@@ -7,7 +7,7 @@ from pyspark.sql import SparkSession
 import pyspark.sql.functions as sf
 from pyspark.sql.types import IntegerType
 from pyspark.sql.functions import *
-
+from graphframes import *
 
 if __name__ == "__main__":
     if len(sys.argv) > 2:
