@@ -26,7 +26,7 @@ if __name__ == "__main__":
     df_mooc = spark.read.csv(sys.argv[1], sep=r'\t', header=True)\
         .withColumnRenamed("USERID","src")\
         .withColumnRenamed("TARGETID","dst")
-    df_mooc = df_mooc.select(df_mooc['USERID'], df_mooc['TARGETID'], df_mooc['TIMESTAMP'])
+    df_mooc = df_mooc.select(df_mooc['src'], df_mooc['dst'], df_mooc['TIMESTAMP'])
     df_vertices = spark.read.csv(sys.argv[2], sep=r'\t', header=True)
     #df_vertices = df_vertices.select(df_vertices['id'], df_vertices['type'])
     
