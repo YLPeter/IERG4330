@@ -22,23 +22,25 @@ if __name__ == "__main__":
         .builder\
         .appName("PythonSQL")\
         .getOrCreate()
-        
+    
     df_mooc = spark.read.csv(sys.argv[1], sep=r'\t', header=True)
     df_mooc = df_mooc.select(df_mooc['USERID'], df_mooc['TARGETID'], df_mooc['TIMESTAMP'])
     df_vertices = spark.read.csv(sys.argv[2], sep=r'\t', header=True)
     df_vertices = df_vertices.select(df_vertices['id'], df_vertices['type'])
     
+    g = GraphFrame(df_vertices, df_mooc)
+    
     ans1_total = df_vertices.count()
     print("ans1_total:",ans1_total)
     
-    ans2_total = df_vertices.filter(df_vertices['type'] == "User").count()
-    print("ans2_total:",ans2_total)
-    ans3_total = df_vertices.filter(df_vertices['type'] == "Course Activity").count()
-    print("ans3_total:",ans3_total)
-    ans4_total = df_mooc.count()
-    print("ans4_total:",ans4_total)
-    ans5_total = df_mooc.groupBy("TARGETID").count().sort(desc("count")).show()
-    ans6_total = df_mooc.groupBy("USERID").count().sort(desc("count")).show()
+    #ans2_total = df_vertices.filter(df_vertices['type'] == "User").count()
+    #print("ans2_total:",ans2_total)
+    #ans3_total = df_vertices.filter(df_vertices['type'] == "Course Activity").count()
+    #print("ans3_total:",ans3_total)
+    #ans4_total = df_mooc.count()
+    #print("ans4_total:",ans4_total)
+    #ans5_total = df_mooc.groupBy("TARGETID").count().sort(desc("count")).show()
+    #ans6_total = df_mooc.groupBy("USERID").count().sort(desc("count")).show()
     #filtedDF = df_mooc.select(df_mooc['USERID'], df_mooc['TARGETID'], df_mooc['TIMESTAMP']).show()
     
     #df = spark.read.csv(sys.argv[1], sep=r'\t', header=True)
