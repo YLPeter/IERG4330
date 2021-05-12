@@ -17,13 +17,11 @@ object SimpleApp {
 	
 	val dag = GraphLoader.edgeListFile(spark.sparkContext, "/opt/spark/workplace/dag_edge_list.txt")
     val edges = GraphLoader.edgeListFile(spark.sparkContext, "/opt/spark/workplace/edge_list.txt")
-	val cc = edges.stronglyConnectedComponents(12)
+	val cc = edges.connectedComponents()
 	val vc = cc.vertices
-	//val d_cc = edges.stronglyConnectedComponents.run().distinct.count()
+	//val d_cc = edges.connectedComponents.run().distinct.count()
 	val d_vc = vc.distinct.count()
-	val cntByKey = vc.map(x => (x._2, x._2)).countByKey()
-	cntByKey.foreach(println)
-
+	vc.map(x => (x._2, x._2)).countByKey().foreach(println)
 	//println(s"d_cc: $d_cc")
 	println(s"d_vc: $d_vc")
 	

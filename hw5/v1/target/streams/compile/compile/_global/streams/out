@@ -1,4 +1,5 @@
-[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/v1/src/main/scala/SimpleApp.scala:22:39: value run is not a member of org.apache.spark.graphx.Graph[org.apache.spark.graphx.VertexId,Int][0m
-[0m[[0m[31merror[0m] [0m[0m	val d_cc = edges.connectedComponents.run().distinct.count()[0m
-[0m[[0m[31merror[0m] [0m[0m	                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/v1/src/main/scala/SimpleApp.scala:26:26: not enough arguments for method count: (p: ((org.apache.spark.graphx.VertexId, Long)) => Boolean)Int.[0m
+[0m[[0m[31merror[0m] [0m[0mUnspecified value parameter p.[0m
+[0m[[0m[31merror[0m] [0m[0m	val cnt = cntByKey.count()[0m
+[0m[[0m[31merror[0m] [0m[0m	                        ^[0m
 [0m[[0m[31merror[0m] [0m[0mone error found[0m
