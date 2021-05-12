@@ -1,0 +1,7 @@
+[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/src/main/scala/SimpleApp.scala:6:24: identifier expected but integer literal found.[0m
+[0m[[0m[31merror[0m] [0m[0m    val logFile = args[1] // Should be some file on your system[0m
+[0m[[0m[31merror[0m] [0m[0m                       ^[0m
+[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/src/main/scala/SimpleApp.scala:7:1: ']' expected.[0m
+[0m[[0m[31merror[0m] [0m[0m    val spark = SparkSession.builder.appName("Simple Application").getOrCreate()[0m
+[0m[[0m[31merror[0m] [0m[0m^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
