@@ -1,10 +1,11 @@
-[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/v2/src/main/scala/SimpleApp.scala:24:61: not found: value max[0m
-[0m[[0m[31merror[0m] [0m[0m	val maxInDegree: (VertexId, Int)  = edges.inDegrees.reduce(max)[0m
-[0m[[0m[31merror[0m] [0m[0m	                                                           ^[0m
-[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/v2/src/main/scala/SimpleApp.scala:25:62: not found: value max[0m
-[0m[[0m[31merror[0m] [0m[0m	val maxOutDegree: (VertexId, Int) = edges.outDegrees.reduce(max)[0m
-[0m[[0m[31merror[0m] [0m[0m	                                                            ^[0m
-[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/v2/src/main/scala/SimpleApp.scala:26:59: not found: value max[0m
-[0m[[0m[31merror[0m] [0m[0m	val maxDegrees: (VertexId, Int)   = edges.degrees.reduce(max)[0m
-[0m[[0m[31merror[0m] [0m[0m	                                                         ^[0m
-[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
+[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/v2/src/main/scala/SimpleApp.scala:23:38: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Long[0m
+[0m[[0m[31merror[0m] [0m[0m required: (Long, Long)[0m
+[0m[[0m[31merror[0m] [0m[0m	var numEdges : (Long, Long) = edges.numEdges[0m
+[0m[[0m[31merror[0m] [0m[0m	                                    ^[0m
+[0m[[0m[31merror[0m] [0m[0m/mnt/hgfs/GitHub/IERG4330/hw5/v2/src/main/scala/SimpleApp.scala:24:41: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Long[0m
+[0m[[0m[31merror[0m] [0m[0m required: (Long, Long)[0m
+[0m[[0m[31merror[0m] [0m[0m	var numVertices : (Long, Long) = edges.numVertices[0m
+[0m[[0m[31merror[0m] [0m[0m	                                       ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m

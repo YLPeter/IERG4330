@@ -20,10 +20,10 @@ object SimpleApp {
     val numAs = logData.filter(line => line.contains("a")).count()
     val numBs = logData.filter(line => line.contains("b")).count()
     println(s"Lines with a: $numAs, Lines with b: $numBs")
-	
-	
-	println(s"edges.numEdges: $edges.numEdges")
-	println(s"edges.numVertices: $edges.numVertices")
+	var numEdges : (VertexId, Long) = edges.numEdges
+	var numVertices : (VertexId, Long) = edges.numVertices
+	println(s"edges.numEdges: $numEdges")
+	println(s"edges.numVertices: $numVertices")
 	val maxInDegree: (VertexId, Int)  = edges.inDegrees.reduce(max)
 	val maxOutDegree: (VertexId, Int) = edges.outDegrees.reduce(max)
 	val maxDegrees: (VertexId, Int)   = edges.degrees.reduce(max)
