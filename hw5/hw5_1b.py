@@ -35,7 +35,7 @@ if __name__ == "__main__":
     g.edges.show()
     vertexInDegrees = g.inDegrees
     
-    edge1b = df_mooc.filter(df_mooc['TIMESTAMP'] >= 10000 & df_mooc['TIMESTAMP'] <= 50000)
+    edge1b = df_mooc.filter(df_mooc['TIMESTAMP'] >= 10000).filter(df_mooc['TIMESTAMP'] <= 50000)
     g2 = GraphFrame(df_vertices, edge1b).dropIsolatedVertices()
     
     #g.vertices.groupBy().min("age").show()
