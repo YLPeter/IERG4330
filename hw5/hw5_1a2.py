@@ -46,8 +46,8 @@ if __name__ == "__main__":
     print("ans3_total:",ans3_total)
     ans4_total = g.edges.count()
     print("ans4_total:",ans4_total)
-    ans5_total = g.edges.groupBy("TARGETID").count().sort(desc("count")).show()
-    ans6_total = g.edges.groupBy("USERID").count().sort(desc("count")).show()
+    ans5_total = g.edges.groupBy("dst").count().sort(desc("count")).show()
+    ans6_total = g.edges.groupBy("src").count().sort(desc("count")).show()
     #filtedDF = df_mooc.select(df_mooc['USERID'], df_mooc['TARGETID'], df_mooc['TIMESTAMP']).show()
     
     #df = spark.read.csv(sys.argv[1], sep=r'\t', header=True)
