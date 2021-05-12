@@ -47,16 +47,20 @@ if __name__ == "__main__":
     print("ans1_edges:",ans1_edges)
     motifs1 = g2.find("(a)-[e]->(b); (c)-[e2]->(b)")
     motifs1.show()
+    print("1,"motifs1.count())
     
     motifs2 = g2.find("(a)-[e]->(b); (b)-[e2]->(c)")
     motifs2.show()
+    print("2,"motifs2.count())
+    
     
     motifs3 = g2.find("(a)-[e]->(b); (a)-[e2]->(c); (d)-[e3]->(b); (d)-[e4]->(c)")
     motifs3.show()
-    
+    print("3,"motifs3.count())
     
     motifs4 = g2.find("(a)-[e]->(b); (a)-[e2]->(c); (d)-[e3]->(b); (d)-[e4]->(f)")
     motifs4.show()
+    print("4,"motifs4.count())
     #ans2_total =  g.vertices.filter("type = 'User'").count()
     #print("ans2_total:",ans2_total)
     #ans3_total =  g.vertices.filter("type = 'Course Activity'").count()
