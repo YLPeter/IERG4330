@@ -17,19 +17,12 @@ object SimpleApp {
 	
 	val dag = GraphLoader.edgeListFile(spark.sparkContext, "/opt/spark/workplace/dag_edge_list.txt")
     val edges = GraphLoader.edgeListFile(spark.sparkContext, "/opt/spark/workplace/edge_list.txt")
-    val numAs = logData.filter(line => line.contains("a")).count()
-    val numBs = logData.filter(line => line.contains("b")).count()
-    println(s"Lines with a: $numAs, Lines with b: $numBs")
-	var numEdges : (VertexId, Long) = edges.numEdges
-	var numVertices : (VertexId, Long) = edges.numVertices
-	println(s"edges.numEdges: $numEdges")
-	println(s"edges.numVertices: $numVertices")
-	val maxInDegree: (VertexId, Int)  = edges.inDegrees.reduce(max)
-	val maxOutDegree: (VertexId, Int) = edges.outDegrees.reduce(max)
-	val maxDegrees: (VertexId, Int)   = edges.degrees.reduce(max)
-	println(s"maxInDegree: $maxInDegree")
-	println(s"maxOutDegree: $maxOutDegree")
-	println(s"maxDegrees: $maxDegrees")
+	val cc = edges.connectedComponents()
+	val vc = cc.vertices
+	//val d_cc = cc.distinct.count()
+	val d_vc = vc.distinct.count()
+//	println(s"d_cc: $d_cc")
+	println(s"d_vc: $d_vc")
 	
     spark.stop()
   }
