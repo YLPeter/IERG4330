@@ -6,6 +6,9 @@ import org.apache.spark.graphx._
 import org.apache.spark.rdd.RDD
 
 object SimpleApp {
+    def max(a: (VertexId, Int), b: (VertexId, Int)): (VertexId, Int) = {
+      if (a._2 > b._2) a else b
+    }
   def main(args: Array[String]) {
     val logFile = "/opt/spark/workplace/vertices.tsv" // Should be some file on your system
 	
