@@ -19,8 +19,8 @@ object SimpleApp {
     val edges = GraphLoader.edgeListFile(spark.sparkContext, "/opt/spark/workplace/edge_list.txt")
 	val cc = edges.stronglyConnectedComponents(12)
 	val vc = cc.vertices
-	vc.show()
 	val d_vc = vc.distinct.count()
+	vc.take(100).foreach(println)
 	//val cntByKey = vc.map(x => (x._2, x._2)).countByKey()
 	//cntByKey.foreach(println)
 
