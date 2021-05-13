@@ -17,7 +17,7 @@ object SimpleApp {
 	
 	val dag = GraphLoader.edgeListFile(spark.sparkContext, "/opt/spark/workplace/dag_edge_list.txt")
     val edges = GraphLoader.edgeListFile(spark.sparkContext, "/opt/spark/workplace/edge_list.txt")
-	val cc = edges.stronglyConnectedComponents(7)
+	val cc = edges.stronglyConnectedComponents(4)
 	val vc = cc.vertices
 	val d_vc = vc.distinct.count()
 	vc.take(100).foreach(println)
